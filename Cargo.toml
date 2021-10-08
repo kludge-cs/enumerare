@@ -1,0 +1,19 @@
+[package]
+name = "enumerare"
+version = "0.1.0"
+authors = [
+	"Kludge Cyber Systems <contact@k-cs.co>"
+]
+description = "Utilities for working with enums."
+documentation = "https://docs.rs/enumerare"
+readme = "README.md"
+repository = "https://github.com/kludge-cs/enumerare"
+license = "MIT"
+edition = "2018"
+
+[features]
+default = ["macros"]
+macros = ["enumerare-macros"]
+
+[dependencies]
+enumerare-macros = { path = "./enumerare-macros", version = "0.1.0", optional = true }

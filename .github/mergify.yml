@@ -1,0 +1,55 @@
+queue_rules:
+  - name: urgent
+    conditions:
+      - "check-success~=Lint"
+      - "check-success~=Test"
+  - name: dependencies
+    conditions:
+      - "check-success~=Lint"
+      - "check-success~=Test"
+pull_request_rules:
+  - name: staging -> main
+    conditions:
+      - "base=main"
+      - "head=staging"
+      - "#approved-reviews-by>=2"
+      - "#changes-requested-reviews-by=0"
+      - "label=status: merge-ready"
+    actions:
+      merge:
+        method: squash
+        strict: true
+  - name: * -> * (urgent fasttrack)
+    conditions:
+      - "label=status: merge-ready"
+      - "label=priority: urgent"
+    actions:
+      queue:
+        name: urgent
+        method: squash
+  - name: dependabot [SECURITY]
+    conditions:
+      - "author~=^dependabot\[bot\]$"
+      - "body~=This update includes security fixes."
+    actions:
+      label:
+        add: ["cat: opsec", "priority: urgent", "status: merge-ready"]
+  - name: dependabot [NON-MAJOR]
+    conditions:
+      - "author~=^dependabot\[bot\]$"
+      - "-base=main"
+    actions:
+      label:
+        add: ["cat: deps", "priority: low", "status: merge-ready"]
+  - name: conflict : warn
+    conditions:
+      - "conflict"
+    actions:
+      label:
+        add: ["status: conflicted"]
+  - name: conflict resolved : remove warning
+    conditions:
+      - "-conflict"
+    actions:
+      label:
+        remove: ["status: conflicted"]
