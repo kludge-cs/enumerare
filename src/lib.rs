@@ -8,7 +8,10 @@
 
 //! A collection of utilities for working with enums.
 
-use core::{fmt, fmt::{Display, Formatter}};
+use core::{
+	fmt,
+	fmt::{Display, Formatter},
+};
 
 #[cfg(feature = "enumerare-macros")]
 #[doc(hidden)]
@@ -46,26 +49,26 @@ pub trait Cycle: SizedEnum {
 	/// # use enumerare::{Cycle, CycleError};
 	/// #[derive(Cycle, Debug, PartialEq)]
 	/// enum Kind {
-	///		A,
-	///		B,
-	///		C,
-	///	}
-	///	assert_eq!(Kind::A.try_cycle_to(0)?, Kind::A);
-	///	assert_eq!(Kind::A.try_cycle_to(1)?, Kind::B);
-	///	assert_eq!(Kind::A.try_cycle_to(2)?, Kind::C);
-	///	assert_eq!(Kind::A.try_cycle_to(3), Err(CycleError::OutOfBounds));
-	///	# Ok::<(), CycleError>(())
+	/// 		A,
+	/// 		B,
+	/// 		C,
+	/// 	}
+	/// 	assert_eq!(Kind::A.try_cycle_to(0)?, Kind::A);
+	/// 	assert_eq!(Kind::A.try_cycle_to(1)?, Kind::B);
+	/// 	assert_eq!(Kind::A.try_cycle_to(2)?, Kind::C);
+	/// 	assert_eq!(Kind::A.try_cycle_to(3), Err(CycleError::OutOfBounds));
+	/// 	# Ok::<(), CycleError>(())
 	/// ```
 	/// No matter what variant this is called on, it behaves the same.
 	/// ```
 	/// # use enumerare::{Cycle, CycleError};
 	/// # #[derive(Cycle, Debug, PartialEq)]
 	/// # enum Kind { A, B, C, }
-	///	assert_eq!(Kind::B.try_cycle_to(0)?, Kind::A);
-	///	assert_eq!(Kind::B.try_cycle_to(1)?, Kind::B);
-	///	assert_eq!(Kind::B.try_cycle_to(2)?, Kind::C);
-	///	assert_eq!(Kind::B.try_cycle_to(3), Err(CycleError::OutOfBounds));
-	///	# Ok::<(), CycleError>(())
+	/// 	assert_eq!(Kind::B.try_cycle_to(0)?, Kind::A);
+	/// 	assert_eq!(Kind::B.try_cycle_to(1)?, Kind::B);
+	/// 	assert_eq!(Kind::B.try_cycle_to(2)?, Kind::C);
+	/// 	assert_eq!(Kind::B.try_cycle_to(3), Err(CycleError::OutOfBounds));
+	/// 	# Ok::<(), CycleError>(())
 	/// ```
 	///
 	/// # Roadmap
@@ -85,13 +88,13 @@ pub trait Cycle: SizedEnum {
 	/// # use enumerare::Cycle;
 	/// #[derive(Cycle, Debug, PartialEq)]
 	/// enum Kind {
-	///		A,
-	///		B,
-	///		C,
-	///	}
-	///	let x = Kind::A;
-	///	// kind has 3 variants so the highest index is 2 so this will panic
-	///	x.cycle_to(5);
+	/// 		A,
+	/// 		B,
+	/// 		C,
+	/// 	}
+	/// 	let x = Kind::A;
+	/// 	// kind has 3 variants so the highest index is 2 so this will panic
+	/// 	x.cycle_to(5);
 	/// ```
 	///
 	/// # Examples
@@ -100,23 +103,23 @@ pub trait Cycle: SizedEnum {
 	/// # use enumerare::Cycle;
 	/// #[derive(Cycle, Debug, PartialEq)]
 	/// enum Kind {
-	///		A,
-	///		B,
-	///		C,
-	///	}
-	///	assert_eq!(Kind::A.cycle_to(0), Kind::A);
-	///	assert_eq!(Kind::A.cycle_to(1), Kind::B);
-	///	assert_eq!(Kind::A.cycle_to(2), Kind::C);
-	///	```
-	///	No matter what variant this is called on, it behaves the same.
-	///	```
+	/// 		A,
+	/// 		B,
+	/// 		C,
+	/// 	}
+	/// 	assert_eq!(Kind::A.cycle_to(0), Kind::A);
+	/// 	assert_eq!(Kind::A.cycle_to(1), Kind::B);
+	/// 	assert_eq!(Kind::A.cycle_to(2), Kind::C);
+	/// 	```
+	/// 	No matter what variant this is called on, it behaves the same.
+	/// 	```
 	/// # use enumerare::Cycle;
 	/// # #[derive(Cycle, Debug, PartialEq)]
 	/// # enum Kind { A, B, C, }
-	///	assert_eq!(Kind::B.cycle_to(0), Kind::A);
-	///	assert_eq!(Kind::B.cycle_to(1), Kind::B);
-	///	assert_eq!(Kind::B.cycle_to(2), Kind::C);
-	///	```
+	/// 	assert_eq!(Kind::B.cycle_to(0), Kind::A);
+	/// 	assert_eq!(Kind::B.cycle_to(1), Kind::B);
+	/// 	assert_eq!(Kind::B.cycle_to(2), Kind::C);
+	/// 	```
 	///
 	/// # Roadmap
 	///
@@ -206,9 +209,9 @@ unsafe impl Sync for CycleError {}
 /// # use enumerare::DefaultEnum;
 /// #[derive(DefaultEnum)]
 /// enum Kind {
-///		A,
-///		#[default] B,
-///		C,
+/// 		A,
+/// 		#[default] B,
+/// 		C,
 /// }
 /// ```
 ///
@@ -217,15 +220,14 @@ unsafe impl Sync for CycleError {}
 /// ```
 /// # enum Kind { B }
 /// impl Default for Kind {
-///		fn default() -> Kind { Kind::B }
-///	}
-///	```
+/// 		fn default() -> Kind { Kind::B }
+/// 	}
+/// 	```
 ///
-///	## Implicit defaults
+/// 	## Implicit defaults
 ///
 /// You can `derive` [`DefaultEnum`] without using the `#[default]` attribute to
 /// select the first variant as an assumed default.
-///
 /// ```
 /// # use enumerare::DefaultEnum;
 /// #[derive(DefaultEnum)]
@@ -235,9 +237,8 @@ unsafe impl Sync for CycleError {}
 ///		C,
 /// }
 /// ```
-///
+/// 
 /// This would generate the following [`Default`] implementation for you:
-///
 /// ```
 /// # enum Kind { A }
 /// impl Default for Kind {
@@ -259,12 +260,12 @@ pub trait DefaultEnum: Default {}
 /// # use enumerare::SizedEnum;
 /// #[derive(SizedEnum)]
 /// enum Kind {
-///		A,
-///		B,
-///		C,
-///	}
+/// 		A,
+/// 		B,
+/// 		C,
+/// 	}
 ///
-///	assert_eq!(Kind::VARIANTS, 3usize);
+/// 	assert_eq!(Kind::VARIANTS, 3usize);
 /// ```
 ///
 /// ```
@@ -272,7 +273,7 @@ pub trait DefaultEnum: Default {}
 /// #[derive(SizedEnum)]
 /// enum Kind {}
 ///
-///	assert_eq!(Kind::VARIANTS, 0usize);
+/// 	assert_eq!(Kind::VARIANTS, 0usize);
 /// ```
 pub trait SizedEnum: Sized {
 	/// The number of variants the enum has.

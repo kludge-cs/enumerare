@@ -1,11 +1,10 @@
 mod helpers;
 mod macros;
 
-use proc_macro::TokenStream;
-use syn::{parse_macro_input, DeriveInput};
-
 use helpers::to_compile_err;
 use macros::{derive_cycle, derive_default, derive_sized_enum};
+use proc_macro::TokenStream;
+use syn::{parse_macro_input, DeriveInput};
 
 #[proc_macro_derive(Cycle)]
 pub fn derive_cycle_macro(input: TokenStream) -> TokenStream {

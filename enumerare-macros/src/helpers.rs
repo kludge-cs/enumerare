@@ -27,7 +27,8 @@ pub fn uint_of_size(size: usize) -> Ident2 {
 }
 
 pub fn primitive_bit_req(n: usize) -> usize {
-	(usize::BITS - n.leading_zeros()).next_power_of_two().clamp(8, usize::BITS) as usize
+	(usize::BITS - n.leading_zeros()).next_power_of_two().clamp(8, usize::BITS)
+		as usize
 
 	// //TODO: Cleaner variant for when int_log is stabilized:
 	// (n.log2().next_power_of_two() as usize).clamp(8, size_of::<usize>())

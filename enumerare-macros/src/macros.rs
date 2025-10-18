@@ -76,7 +76,7 @@ pub(crate) fn derive_default(ast: &DeriveInput) -> Result<TokenStream2> {
 		data.variants
 			.iter()
 			.find(|variant| {
-				variant.attrs.iter().any(|attr| attr.path.is_ident("default"))
+				variant.attrs.iter().any(|attr| attr.path().is_ident("default"))
 			})
 			.or_else(|| data.variants.first()),
 	)?
