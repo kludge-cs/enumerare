@@ -1,6 +1,6 @@
 {
 	inputs = {
-		nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+		nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
 
 		hooks = {
 			url = "github:cachix/git-hooks.nix";
@@ -31,7 +31,7 @@
 
 		forAllSystems = f:
 			lib.genAttrs systems (system:
-					f rec {
+					f {
 						pkgs =
 							import nixpkgs {
 								inherit system;
@@ -59,7 +59,7 @@
 					pkgs,
 					system,
 				}: let
-					check = self.checks.${system}.pre-commit-check;
+					check = self.checks.${system}.pre-commit;
 				in {
 					default =
 						pkgs.mkShell {
@@ -84,12 +84,16 @@
 				});
 
 		checks =
-			forAllSystems ({system, ...}: let
-					hooksLib = hooks.lib.${system};
-				in {
-					pre-commit-check =
-						hooksLib.run {
+			forAllSystems ({
+					system,
+					pkgs,
+					...
+				}: {
+					pre-commit =
+						hooks.lib.${system}.run {
 							src = ./.;
+							package = pkgs.prek;
+
 							hooks = {
 								convco.enable = true;
 								alejandra.enable = true;
